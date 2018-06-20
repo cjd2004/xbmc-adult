@@ -1,4 +1,3 @@
-import sesame
 import sys
 import os
 import xbmc
@@ -52,7 +51,7 @@ def showCategories(localpath, handle):
 	a=f.read()
 	f.close()
 
-	catRE = re.compile("<li><a href='(http://www\.tube8\.com/cat/.+?)'>(.+?)</a>")
+	catRE = re.compile('<li><a href="(http://www\.tube8\.com/cat/.+?)".+?span>(.+?)</a>', re.DOTALL)
 	match = catRE.findall(a)
 	categories = []
 	for url, name in match:
@@ -90,40 +89,31 @@ def showListCommon(localpath, handle, pageUrl):
 	a=f.read()
 	f.close()
 
-	thumbRE = '<img .+? class="videoThumbs" .+? src="(.+?)".+?>'
-	videosRE = 'sh2"><a href="(.+?)" title="(.+?)">.+?</a>'
-	lenghtRE = '<div class="video-right-text float-right"><strong>(([0-9]{2}:)?[0-9]{2}:[0-9]{2})</strong></div>'
-
-	thumbPattern, videoPattern, lenghtPattern = re.compile(thumbRE), re.compile(videosRE), re.compile(lenghtRE)
-
-	matchThumb=thumbPattern.findall(a)
-	matchVid=videoPattern.findall(a)
-	matchlengh=lenghtPattern.findall(a)
-	n = 0
-	for url, name in matchVid:
-		thumb, duration = matchThumb[n], matchlengh[n][0]
-		li=xbmcgui.ListItem(name, name, thumb, thumb)
-		li.setInfo( type="Video", infoLabels={ "Title": name, "Duration": duration } )
-		u=localpath + "?mode=3&name=" + urllib.quote_plus(name) + \
+	if 'tube8.com/top/' in pageUrl:
+		thumbRE = '<img class="videoThumbs" .+?\s+src="(.+?)"'
+	else:
+		thumbRE = 'class="videoThumbs[^\[]+?src="([^"]+)'
+        dataRE = 'thumb_box">\s*<a href="([^"]+).+?data-thumb="([^"]+)"\s*src="[^"]+"\s*data-mediabook="[^"]*"\s*alt="([^"]+).+?video_duration">([^<]+)<'
+        dataPattern = re.compile(dataRE, re.DOTALL)
+	for url, thumb, name, duration in dataPattern.findall(a):
+                title = "%s (%s)" % (name, duration)
+		li=xbmcgui.ListItem(title, title, thumb, thumb)
+		u=localpath + "?mode=3&name=" + urllib.quote_plus(title) + \
       "&url=" + urllib.quote_plus(url)
 		xbmcplugin.addDirectoryItem(handle, u, li, False, NB_ITEM_PAGE)
-		n = n + 1
 
 def playVideo(localpath, handle, url):
+	xbmc.log('playVideo: ' + url)
 	f=urllib2.urlopen(url)
 	a=f.read()
 	f.close()
 
-	p=re.compile('"video_url":"([^"]+)')
+	p=re.compile('page_params.videoUrlJS = "([^"]+)')
 	match=p.findall(a)
-	eurl=match[0].replace('\/', '/')
+	video_url=match[0]
 
-	p2=re.compile('"video_title":"([^"]+)')
-	iv=p2.findall(a)[0]
-
-	video=sesame.decrypt(eurl, iv, 256)
-	print "Playing: " + video
-	xbmc.Player().play(video)
+	print "Playing: " + video_url
+	xbmc.Player().play(video_url)
 
 def get_params(args):
 	param=[]
@@ -144,7 +134,7 @@ def get_params(args):
 		return param
 
 def search_videos(localpath, handle):
-	searchUrl = "http://www.tube8.com/search.html?q="
+	searchUrl = "http://www.tube8.com/searches.html?q="
 	vq = _get_keyboard( heading="Enter the query" )
 	# if blank or the user cancelled the keyboard, return
 	if ( not vq ): return False, 0

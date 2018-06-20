@@ -1,3 +1,23 @@
+1.0.16
+ - Fixed video URL
+
+1.0.15
+ - Merged commit with fixes for duration and duplicate entries
+
+1.0.14
+ - Fixed list URL
+
+1.0.13
+ - Fixed video URL
+
+1.0.12
+ - Fixed video regex
+ - Cleaned up style and removed dead code
+ - Added logging
+
+1.0.11
+ - Get rid of "CreateLoader - unsupported protocol(plugin)" warnings
+
 1.0.10
  - Fixed video url
 

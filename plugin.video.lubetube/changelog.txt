@@ -1,3 +1,15 @@
+[B]1.17[/B]
+
+- Get rid of "CreateLoader - unsupported protocol(plugin)" warnings
+
+[B]1.16[/B]
+
+- Fix category listing
+
+[B]1.15[/B]
+
+- Fix videos
+
 [B]1.13[/B]
 
 - Update python api version for Gotham

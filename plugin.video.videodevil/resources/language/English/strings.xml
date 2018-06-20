@@ -5,10 +5,6 @@
 
     <string id="20191">Enable debug logging</string>
     <string id="30002">Disable disclaimer</string>
-    <string id="30003">Player type</string>
-    <string id="30004">Auto</string>
-    <string id="30005">MPlayer</string>
-    <string id="30006">DVDPlayer</string>
     <string id="30007">Save video</string>
     <string id="30008">Download path</string>
     <string id="30009">Ask for download before playing video</string>
@@ -20,6 +16,7 @@
     <string id="30015">Standard</string>
     <string id="30016">High</string>
     <string id="30017">Select download path:</string>
+    <string id="30018">Enabled Sites</string>
 
     <string id="30050">Downloading video...</string>
     <string id="30051">Please wait.</string>
@@ -38,6 +35,7 @@
     <string id="30064">you reside or from which you access this content.</string>
     <string id="30065">Exit</string>
     <string id="30066">Enter</string>
+    <string id="30067">Sorry! Unable to find the video</string>
 
     <string id="30100">Categories</string>
     <string id="30101">Subcategories</string>
@@ -57,4 +55,10 @@
     <string id="30115">Kids</string>
     <string id="30116">Music</string>
     <string id="30117">Related videos</string>
+    <string id="30118">Pornstars</string>
+    <string id="30119">Popular by Country</string>
+    <string id="30120">Top Rated</string>
+    <string id="30121">Most Viewed</string>
+    <string id="30122">Gay</string>
+    <string id="30123">Shemale</string>
 </strings>
